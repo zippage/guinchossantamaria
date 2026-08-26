@@ -1,0 +1,124 @@
+/* ============================================
+   RESPONSIVE — Guinchos Santa Maria
+   Mobile-first: regras abaixo sobrescrevem para
+   telas maiores (tablet 700px+, desktop 1024px+)
+   ============================================ */
+
+/* ---------- Tablet (>=700px) ---------- */
+@media (min-width: 700px) {
+  .trust-bar__inner {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .trust-bar__item {
+    border-bottom: none;
+    border-right: 1px solid rgb(255 255 255 / 0.08);
+    justify-content: center;
+    text-align: left;
+  }
+  .trust-bar__item:last-child { border-right: none; }
+
+  .situations__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .why__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 190px;
+  }
+  .gallery__item--feature { grid-column: span 2; grid-row: span 2; }
+
+  .footer__top {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+
+  .footer__bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* ---------- Desktop (>=1024px) ---------- */
+@media (min-width: 1024px) {
+  .mobile-bar { display: none; }
+
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--color-steel);
+  }
+  .nav-desktop a { transition: color var(--dur-fast); }
+  .nav-desktop a:hover { color: var(--color-cream); }
+
+  .header__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .header__mobile-actions { display: none; }
+
+  .hero__grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--space-xl);
+  }
+
+  .hero__stripe { display: block; }
+
+  .hero__ctas { flex-wrap: nowrap; }
+
+  .trust-bar__item { padding-block: 1.5rem; }
+
+  .situations__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .services__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .why__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .gallery__grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 200px;
+  }
+
+  .how__steps {
+    grid-template-columns: repeat(3, 1fr);
+    counter-reset: step;
+  }
+  .how-step {
+    flex-direction: column;
+    gap: 0.6rem;
+    border-top: none;
+    border-left: 1px solid var(--color-line);
+    padding-inline-start: var(--space-sm);
+  }
+  .how-step:last-child { border-bottom: none; }
+
+  .coverage__box {
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    padding: var(--space-xl);
+  }
+
+  .footer__top { grid-template-columns: 1.6fr 1fr 1fr 1fr; }
+}
+
+/* ---------- Desktop grande (>=1280px) ---------- */
+@media (min-width: 1280px) {
+  .hero__frame img { aspect-ratio: 4 / 4.6; }
+}

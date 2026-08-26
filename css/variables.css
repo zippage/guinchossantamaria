@@ -1,0 +1,96 @@
+/* ============================================
+   DESIGN TOKENS — Guinchos Santa Maria
+   Direção: emergência veicular 24h, confiança local,
+   material visual do próprio negócio (faixa de risco
+   âmbar/preta dos equipamentos reais).
+   ============================================ */
+
+:root {
+  /* ---- Cor ---- */
+  --color-asphalt:      #14161A;  /* fundo principal escuro */
+  --color-surface:      #1C1F24;  /* cards / superfícies sobre o fundo escuro */
+  --color-surface-2:    #23262D;  /* superfície elevada */
+  --color-line:         #2E323A;  /* bordas sutis sobre escuro */
+
+  --color-brand:        #2ED411;  /* verde da marca — extraído da logo real do cliente */
+  --color-brand-dark:   #21970C;
+  --color-brand-tint:   #E6F7E3;
+
+  --color-whatsapp:     #25D366;  /* verde funcional, só no botão WhatsApp */
+  --color-whatsapp-dark:#1DA851;
+
+  --color-paper:        #F6F4EF;  /* fundo claro (seções alternadas) */
+  --color-paper-2:      #ECE9E1;
+  --color-ink:          #16181C;  /* texto principal sobre claro */
+  --color-ink-soft:     #4B4F58;  /* texto secundário sobre claro */
+
+  --color-white:        #FFFFFF;
+  --color-cream:        #F5F4F1;  /* texto principal sobre escuro */
+  --color-steel:        #8B92A0;  /* texto secundário sobre escuro */
+
+  --color-success:      #2FAE60;
+  --color-danger:       #E5484D;
+
+  /* ---- Tipografia ---- */
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Work Sans", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", monospace;
+
+  --fs-display-xl: clamp(2.6rem, 6vw + 1rem, 5.4rem);
+  --fs-display-lg: clamp(2.1rem, 4vw + 1rem, 3.6rem);
+  --fs-display-md: clamp(1.6rem, 2.4vw + 1rem, 2.4rem);
+  --fs-display-sm: clamp(1.25rem, 1.4vw + 1rem, 1.6rem);
+
+  --fs-body-lg: clamp(1.05rem, 0.4vw + 1rem, 1.25rem);
+  --fs-body-md: 1rem;
+  --fs-body-sm: 0.9rem;
+  --fs-body-xs: 0.78rem;
+
+  --lh-tight: 1.05;
+  --lh-snug: 1.25;
+  --lh-normal: 1.55;
+
+  --ls-eyebrow: 0.14em;
+
+  /* ---- Espaçamento ---- */
+  --space-2xs: 0.4rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1.25rem;
+  --space-md: 2rem;
+  --space-lg: 3.5rem;
+  --space-xl: 5.5rem;
+  --space-2xl: 8rem;
+
+  --section-pad-y: clamp(3.5rem, 6vw, 7rem);
+  --container-w: 1240px;
+  --container-pad-x: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* ---- Forma ---- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* ---- Sombra ---- */
+  --shadow-sm: 0 2px 10px rgb(0 0 0 / 0.18);
+  --shadow-md: 0 12px 32px rgb(0 0 0 / 0.24);
+  --shadow-lg: 0 24px 60px rgb(0 0 0 / 0.32);
+  --shadow-brand: 0 10px 28px rgb(46 212 17 / 0.35);
+
+  /* ---- Movimento ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 160ms;
+  --dur-med: 320ms;
+  --dur-slow: 560ms;
+
+  /* ---- Faixa de risco (assinatura visual) ---- */
+  --hazard-stripe: repeating-linear-gradient(
+    -45deg,
+    var(--color-brand) 0 18px,
+    var(--color-asphalt) 18px 36px
+  );
+
+  --z-header: 100;
+  --z-mobile-bar: 90;
+  --z-overlay: 200;
+}
