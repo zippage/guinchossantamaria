@@ -14,6 +14,7 @@
 
   --color-brand:        #2ED411;  /* verde da marca — extraído da logo real do cliente */
   --color-brand-dark:   #21970C;
+  --color-brand-text:   #187009;  /* verde da marca escurecido p/ atingir contraste AA (4.5:1+) como texto sobre fundos claros */
   --color-brand-tint:   #E6F7E3;
 
   --color-whatsapp:     #25D366;  /* verde funcional, só no botão WhatsApp */

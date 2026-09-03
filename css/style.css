@@ -1,3 +1,278 @@
+/* ============================================================
+   BUNDLE ÚNICO DE CSS — reset + variables + style + responsive
+   ----------------------------------------------------------
+   Antes eram 4 arquivos <link> separados (reset.css, variables.css,
+   style.css, responsive.css). O PageSpeed apontou "Render-blocking
+   requests" com ~2.190ms de economia estimada: cada <link> é uma
+   requisição de rede própria, e cada uma delas levava ~568ms de ida-
+   e-volta antes do navegador poder pintar qualquer coisa na tela —
+   independente do tamanho do arquivo (variables.css tem 1,8 KiB e
+   levava o mesmo tempo que style.css com 5,4 KiB).
+   Unindo tudo em um único arquivo, o navegador faz UMA requisição
+   de CSS em vez de quatro, e o primeiro paint não fica esperando a
+   fila toda. Os arquivos-fonte (reset.css, variables.css,
+   responsive.css) continuam na pasta para referência/edição — só o
+   index.html não os referencia mais individualmente.
+   ============================================================ */
+
+/* ---------- 0) FONTES (self-hosted) ----------
+   Antes: <link href="fonts.googleapis.com/css2?..."> — dependência externa
+   que o PageSpeed apontou com 751ms de latência dentro do "Render-blocking
+   requests", além de exigir handshake com um domínio de terceiro (mesmo
+   com preconnect, ainda é uma requisição a mais no caminho crítico).
+   Agora: arquivos .woff2 dos mesmos pesos usados no design, hospedados
+   junto com o resto do site (via pacotes @fontsource, que espelham os
+   arquivos oficiais do Google Fonts) — zero dependência externa. */
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("../assets/fonts/barlow-condensed-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("../assets/fonts/barlow-condensed-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("../assets/fonts/barlow-condensed-800.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Work Sans";
+  src: url("../assets/fonts/work-sans-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Work Sans";
+  src: url("../assets/fonts/work-sans-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Work Sans";
+  src: url("../assets/fonts/work-sans-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Work Sans";
+  src: url("../assets/fonts/work-sans-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fonts/jetbrains-mono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fonts/jetbrains-mono-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../assets/fonts/jetbrains-mono-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- 1) RESET ---------- */
+/* ============================================
+   RESET — Guinchos Santa Maria
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, picture, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button, input, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: inherit;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- 2) VARIABLES ---------- */
+/* ============================================
+   DESIGN TOKENS — Guinchos Santa Maria
+   Direção: emergência veicular 24h, confiança local,
+   material visual do próprio negócio (faixa de risco
+   âmbar/preta dos equipamentos reais).
+   ============================================ */
+
+:root {
+  /* ---- Cor ---- */
+  --color-asphalt:      #14161A;  /* fundo principal escuro */
+  --color-surface:      #1C1F24;  /* cards / superfícies sobre o fundo escuro */
+  --color-surface-2:    #23262D;  /* superfície elevada */
+  --color-line:         #2E323A;  /* bordas sutis sobre escuro */
+
+  --color-brand:        #2ED411;  /* verde da marca — extraído da logo real do cliente */
+  --color-brand-dark:   #21970C;
+  --color-brand-text:   #187009;  /* verde da marca escurecido p/ atingir contraste AA (4.5:1+) como texto sobre fundos claros */
+  --color-brand-tint:   #E6F7E3;
+
+  --color-whatsapp:     #25D366;  /* verde funcional, só no botão WhatsApp */
+  --color-whatsapp-dark:#1DA851;
+
+  --color-paper:        #F6F4EF;  /* fundo claro (seções alternadas) */
+  --color-paper-2:      #ECE9E1;
+  --color-ink:          #16181C;  /* texto principal sobre claro */
+  --color-ink-soft:     #4B4F58;  /* texto secundário sobre claro */
+
+  --color-white:        #FFFFFF;
+  --color-cream:        #F5F4F1;  /* texto principal sobre escuro */
+  --color-steel:        #8B92A0;  /* texto secundário sobre escuro */
+
+  --color-success:      #2FAE60;
+  --color-danger:       #E5484D;
+
+  /* ---- Tipografia ---- */
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Work Sans", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", monospace;
+
+  --fs-display-xl: clamp(2.6rem, 6vw + 1rem, 5.4rem);
+  --fs-display-lg: clamp(2.1rem, 4vw + 1rem, 3.6rem);
+  --fs-display-md: clamp(1.6rem, 2.4vw + 1rem, 2.4rem);
+  --fs-display-sm: clamp(1.25rem, 1.4vw + 1rem, 1.6rem);
+
+  --fs-body-lg: clamp(1.05rem, 0.4vw + 1rem, 1.25rem);
+  --fs-body-md: 1rem;
+  --fs-body-sm: 0.9rem;
+  --fs-body-xs: 0.78rem;
+
+  --lh-tight: 1.05;
+  --lh-snug: 1.25;
+  --lh-normal: 1.55;
+
+  --ls-eyebrow: 0.14em;
+
+  /* ---- Espaçamento ---- */
+  --space-2xs: 0.4rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1.25rem;
+  --space-md: 2rem;
+  --space-lg: 3.5rem;
+  --space-xl: 5.5rem;
+  --space-2xl: 8rem;
+
+  --section-pad-y: clamp(3.5rem, 6vw, 7rem);
+  --container-w: 1240px;
+  --container-pad-x: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* ---- Forma ---- */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* ---- Sombra ---- */
+  --shadow-sm: 0 2px 10px rgb(0 0 0 / 0.18);
+  --shadow-md: 0 12px 32px rgb(0 0 0 / 0.24);
+  --shadow-lg: 0 24px 60px rgb(0 0 0 / 0.32);
+  --shadow-brand: 0 10px 28px rgb(46 212 17 / 0.35);
+
+  /* ---- Movimento ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 160ms;
+  --dur-med: 320ms;
+  --dur-slow: 560ms;
+
+  /* ---- Faixa de risco (assinatura visual) ---- */
+  --hazard-stripe: repeating-linear-gradient(
+    -45deg,
+    var(--color-brand) 0 18px,
+    var(--color-asphalt) 18px 36px
+  );
+
+  --z-header: 100;
+  --z-mobile-bar: 90;
+  --z-overlay: 200;
+}
+
+/* ---------- 3) STYLE (regras principais) ---------- */
 /* ============================================
    STYLE — Guinchos Santa Maria (mobile-first base)
    ============================================ */
@@ -25,7 +300,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
-  color: var(--color-brand-dark);
+  color: var(--color-brand-text);
   font-weight: 600;
 }
 
@@ -117,13 +392,16 @@ section { position: relative; }
   font-size: 1rem;
   padding: 0.95em 1.7em;
   border-radius: var(--radius-pill);
-  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+  transition: transform var(--dur-fast) var(--ease-out);
   white-space: nowrap;
   position: relative;
   overflow: hidden;
   isolation: isolate;
 }
 .btn:active { transform: scale(0.97); }
+/* A cor de hover dos botões abaixo é feita via ::after (opacity), não via
+   background-color direto: opacity roda no compositor (GPU) e não força
+   repaint a cada frame, diferente de animar background-color/box-shadow. */
 
 .btn--whatsapp::before {
   content: "";
@@ -145,7 +423,17 @@ section { position: relative; }
   color: var(--color-white);
   box-shadow: 0 10px 26px rgb(37 211 102 / 0.32);
 }
-.btn--whatsapp:hover { background: var(--color-whatsapp-dark); transform: translateY(-2px); }
+.btn--whatsapp::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-whatsapp-dark);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.btn--whatsapp:hover { transform: translateY(-2px); }
+.btn--whatsapp:hover::after { opacity: 1; }
 
 .btn--call {
   background: transparent;
@@ -167,7 +455,17 @@ section { position: relative; }
   box-shadow: var(--shadow-brand);
   font-weight: 700;
 }
-.btn--brand:hover { background: var(--color-brand-dark); transform: translateY(-2px); }
+.btn--brand::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-brand-dark);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.btn--brand:hover { transform: translateY(-2px); }
+.btn--brand:hover::after { opacity: 1; }
 
 .btn--lg { padding: 1.1em 2.2em; font-size: 1.05rem; }
 .btn--block { width: 100%; }
@@ -917,7 +1215,7 @@ section { position: relative; }
   max-width: 24rem;
 }
 
-.footer__col h4 {
+.footer__col h3 {
   font-family: var(--font-mono);
   font-size: 0.74rem;
   text-transform: uppercase;
@@ -1001,4 +1299,130 @@ section { position: relative; }
 }
 .skip-link:focus {
   left: 0;
+}
+
+/* ---------- 4) RESPONSIVE (media queries, deve vir por último) ---------- */
+/* ============================================
+   RESPONSIVE — Guinchos Santa Maria
+   Mobile-first: regras abaixo sobrescrevem para
+   telas maiores (tablet 700px+, desktop 1024px+)
+   ============================================ */
+
+/* ---------- Tablet (>=700px) ---------- */
+@media (min-width: 700px) {
+  .trust-bar__inner {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .trust-bar__item {
+    border-bottom: none;
+    border-right: 1px solid rgb(255 255 255 / 0.08);
+    justify-content: center;
+    text-align: left;
+  }
+  .trust-bar__item:last-child { border-right: none; }
+
+  .situations__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .why__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 190px;
+  }
+  .gallery__item--feature { grid-column: span 2; grid-row: span 2; }
+
+  .footer__top {
+    grid-template-columns: 1.4fr 1fr 1fr;
+  }
+
+  .footer__bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* ---------- Desktop (>=1024px) ---------- */
+@media (min-width: 1024px) {
+  .mobile-bar { display: none; }
+
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--color-steel);
+  }
+  .nav-desktop a { transition: color var(--dur-fast); }
+  .nav-desktop a:hover { color: var(--color-cream); }
+
+  .header__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .header__mobile-actions { display: none; }
+
+  .hero__grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: var(--space-xl);
+  }
+
+  .hero__stripe { display: block; }
+
+  .hero__ctas { flex-wrap: nowrap; }
+
+  .trust-bar__item { padding-block: 1.5rem; }
+
+  .situations__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .services__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .why__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .gallery__grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 200px;
+  }
+
+  .how__steps {
+    grid-template-columns: repeat(3, 1fr);
+    counter-reset: step;
+  }
+  .how-step {
+    flex-direction: column;
+    gap: 0.6rem;
+    border-top: none;
+    border-left: 1px solid var(--color-line);
+    padding-inline-start: var(--space-sm);
+  }
+  .how-step:last-child { border-bottom: none; }
+
+  .coverage__box {
+    grid-template-columns: 1.3fr 1fr;
+    align-items: center;
+    padding: var(--space-xl);
+  }
+
+  .footer__top { grid-template-columns: 1.6fr 1fr 1fr 1fr; }
+}
+
+/* ---------- Desktop grande (>=1280px) ---------- */
+@media (min-width: 1280px) {
+  .hero__frame img { aspect-ratio: 4 / 4.6; }
 }

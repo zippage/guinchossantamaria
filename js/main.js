@@ -51,31 +51,51 @@
     });
   });
 
-  /* ---------- Scroll depth (25/50/75/100%) ---------- */
+  /* ---------- Scroll depth (25/50/75/100%) + sombra do header ----------
+     Um único listener de scroll, throttlado por requestAnimationFrame,
+     cuidando das duas coisas. Antes existiam dois listeners separados: um
+     throttlado (este) e outro sem throttle que escrevia
+     header.style.boxShadow a cada evento de scroll. Essa escrita de estilo
+     fora de sync com o rAF invalidava o layout, e a leitura de
+     scrollHeight/innerHeight logo em seguida forçava um reflow síncrono
+     (era o "Forced reflow" apontado pelo PageSpeed). Unificando em um só
+     handler, a leitura (scrollY) e a escrita (boxShadow) acontecem juntas,
+     dentro do mesmo frame, sem forçar recálculo de layout no meio. */
   var depthsFired = {};
   var thresholds = [25, 50, 75, 100];
+  var header = document.querySelector(".header");
+
   function checkScrollDepth() {
     var scrollTop = window.scrollY || document.documentElement.scrollTop;
     var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    if (docHeight <= 0) return;
-    var pct = Math.round((scrollTop / docHeight) * 100);
-    thresholds.forEach(function (t) {
-      if (pct >= t && !depthsFired[t]) {
-        depthsFired[t] = true;
-        trackEvent("scroll_depth", { percent: t });
-      }
-    });
-  }
-  var scrollTicking = false;
-  window.addEventListener("scroll", function () {
-    if (!scrollTicking) {
-      window.requestAnimationFrame(function () {
-        checkScrollDepth();
-        scrollTicking = false;
+    if (docHeight > 0) {
+      var pct = Math.round((scrollTop / docHeight) * 100);
+      thresholds.forEach(function (t) {
+        if (pct >= t && !depthsFired[t]) {
+          depthsFired[t] = true;
+          trackEvent("scroll_depth", { percent: t });
+        }
       });
-      scrollTicking = true;
     }
-  });
+    if (header) {
+      header.style.boxShadow = scrollTop > 8 ? "0 8px 24px rgb(0 0 0 / 0.28)" : "none";
+    }
+  }
+
+  var scrollTicking = false;
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(function () {
+          checkScrollDepth();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    },
+    { passive: true }
+  );
 
   /* ---------- FAQ: fecha os outros ao abrir um (accordion) ---------- */
   var faqItems = document.querySelectorAll(".faq-item");
@@ -90,15 +110,4 @@
     });
   });
 
-  /* ---------- Header: leve sombra ao rolar ---------- */
-  var header = document.querySelector(".header");
-  if (header) {
-    window.addEventListener(
-      "scroll",
-      function () {
-        header.style.boxShadow = window.scrollY > 8 ? "0 8px 24px rgb(0 0 0 / 0.28)" : "none";
-      },
-      { passive: true }
-    );
-  }
 })();

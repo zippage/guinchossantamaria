@@ -43,11 +43,15 @@ e as decisões tomadas, para consulta futura.
 
 ## Checklist antes de publicar
 
-1. **[BLOQUEIA PUBLICAÇÃO] Substituir `GTM-XXXXXXX` pelo ID real do
-   container do Google Tag Manager** em `index.html` (aparece 2x: `<head>` e
-   logo após `<body>`). Sem isso, os eventos de `whatsapp_click`,
-   `phone_click`, `scroll_depth` e `faq_open` (já implementados em
-   `js/main.js`) não são capturados por nenhuma ferramenta de análise.
+1. **Analytics (GTM) — pendente, não bloqueia a publicação.** O código do
+   Google Tag Manager foi removido do `index.html` (não estava com ID
+   válido). Os eventos `whatsapp_click`, `phone_click`, `scroll_depth` e
+   `faq_open` continuam implementados em `js/main.js`, empurrando pro
+   `window.dataLayer` — só não há nada escutando ainda. Quando o cliente
+   criar o container em **tagmanager.google.com** (conta Google dele, não
+   sua — ver conversa com a ZipPage sobre titularidade dos dados), adicione
+   de volta o script oficial do GTM logo antes de `</head>` e o `<noscript>`
+   logo após a abertura do `<body>`, com o ID real.
 2. Confirmar o domínio de produção final e validar que `canonical`, Open
    Graph e `sitemap.xml` apontam todos para `https://www.guinchossantamaria.com.br/`.
 3. Após publicar, submeter `sitemap.xml` no Google Search Console e
